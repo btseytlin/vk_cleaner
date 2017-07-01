@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}
+VK CLEANER - список друзей
+{% endblock %}
+
+{% block scripts %}
+<script>
+"use strict"
+$(document).ready(function(){
+	console.log('setting up script')
+	$('.friend-block .btn').click(function(e){
+		e.preventDefault()
+		let button = $(event.target)  
+		if (!button.hasClass('disabled')){
+			let friend_id = button.attr('id').split('_')[1]
+			$.ajax({
+		        url: "{% url 'delete_friend' %}?friend_user_id="+friend_id,
+		        dataType: 'json',
+		        success: function (data) {
+		            button.addClass('disabled')
+		            button.removeClass('btn-danger')
+		            button.html('Удален из друзей')
+	        	},
+	        	error: function(data){
+		            button.removeClass('btn-danger')
+		            button.addClass('btn-warning')
+		            button.html('Ошибка')
+	        		console.log("Произошла ошибка: ")
+	        		console.log(data)
+	        	}
+			})
+	    }
+	  })
+})
+
+
+</script>
+
+{% endblock %}
+{% block content %}
+<div class=' center block'>
+<div class='row center'>
+	<div class=' friend-block' >
+		<div class='row'>
+			<div class='col-xs-1' align="center">
+				Фото
+			</div>
+			<div class='col-xs-4' align="center">
+				Имя
+			</div>
+			<div class='col-xs-2' align="center">
+				-
+			</div>
+			<div class='col-xs-5' align="center">
+				Последнее общение
+			</div>
+		</div>
+	</div>
+{% for friend in friends_dates %}
+
+	<div class=' friend-block' >
+		<div class='row'>
+			<div class='col-xs-1' align="center">
+				<img src="{{friend.photo_50}}" width="50px" class="img-circle"></img>
+			</div>
+			<div class='col-xs-4' align="center">
+				<a href="https://vk.com/id{{friend.user_id}}">{{friend.first_name}} {{friend.last_name}}</a>
+			</div>
+			<div class='col-xs-2' align="center">
+				<button class='btn btn-xs btn-danger' id="delete_{{friend.user_id}}" >Удалить из друзей</button>
+			</div>
+			<div class='col-xs-5' align="center">
+				{{friend.date}}
+			</div>
+		</div>
+	</div>
+{% endfor %}
+</div>
+</div>
+{% endblock %}
+

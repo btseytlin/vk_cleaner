@@ -1,0 +1,45 @@
+<html>
+    <head>
+
+        <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    
+    
+        {% load bootstrap3 %}
+        {% load static %}
+
+        {% bootstrap_css %}
+        
+        <link rel="stylesheet" href="{% static "main.css"%}">
+
+        {% block styles %}
+        {% endblock %}
+
+        {% bootstrap_javascript %}
+        {% block scripts %}
+        {% endblock %}
+
+        <title>{% block title %}{% endblock %}</title>
+
+    </head>
+    <body>
+        <div class="site-wrapper">
+            <div class="container">
+                {% include 'navbar.html' %}
+                <div id="messages">
+                    {% include 'bootstrap3/messages.html' %}
+                </div>
+                <div id='content'>
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                {% include 'footer.html' %}
+            </div>
+        </footer>
+    </body>
+</html>

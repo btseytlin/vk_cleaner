@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+VK CLEANER
+{% endblock %}
+
+{% block content %}
+	{% if user_data %}
+		<div class='center block jumbotron'>
+			<div class='row center'>
+				<div class='lead' align='center'>
+					<h1><img src="{{user_data.user_pic}}" width="50px" class="img-circle"> {{user_data.user_full_name}}<small> <a class='btn btn-small btn-danger' href="{% url 'logout' %}">Выйти</a></small></h1> 
+				</div>
+				<div class='lead' align='center'>
+					 <a class='btn btn-lg btn-primary' href="{% url 'friend_list' %}">Перейти к списку друзей</a>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div class='center block jumbotron'>
+			<div class='row center'>
+				<div class=' lead' align='center'>Войдите VK с помощью ссылки:</div>
+			</div>
+			<div class='row center'>
+				<div class=' lead' align='center'><a class='btn btn-lg btn-defaut' style="background-color:#51769e!important;color:white;" target="_blank" href="{{auth_uri}}">Войти VK</a></div>
+			</div>
+			<hr class="my-4">
+			<div class='row center'>
+				<div class=' lead' align='center'>Скопируйте ссылку из адресной строки в открывшемся окне и вставьте ниже:</div>
+			</div>
+
+			<div class="row center">
+				<form action="{% url 'index' %}" method="post" align="center" class="form-horizontal">
+				    {% csrf_token %}
+				    {% if auth_info_form.errors %}
+					    <div class="form-group alert alert-danger" >
+			                <p>{{ auth_info_form.non_field_errors|escape }}</p>
+						    <p>{{ auth_info_form.vk_link.errors|escape }}</p>
+			            </div>
+			        {% endif %}
+
+		            <div class='form-group'>
+					    <label class="control-label col-sm-3" for="{{ auth_info_form.vk_link.id_for_label }}">Ссылка из адресной строки:</label>  
+					    <div class="col-sm-9 col-xs-12">
+					    	<input name="{{ auth_info_form.vk_link.html_name }}" class="form-control" type="text" id="vk-link-input" />
+				    	</div>
+					</div>
+					<hr class="my-4">
+				    <div class="form-group"> 
+		                <div class="col-sm-offset-2 col-sm-8">  
+		                    <input type="submit" class="btn btn-lg btn-primary" value="Поехали" />
+		                </div>
+		            </div> 
+
+				    
+				</form>
+			</div>
+		</div>
+
+            
+	{% endif %}
+
+{% endblock %}
