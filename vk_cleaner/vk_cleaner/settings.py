@@ -135,13 +135,8 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 
 ALLOWED_HOSTS = ['vkcleaner.ru', 'www.vkcleaner.ru', '127.0.0.1']
-"""VK AUTH"""
 
 LOGIN_REDIRECT_URL = 'index'
-
-
-
-
 
 VK_APP_ID = '6089827'
 
